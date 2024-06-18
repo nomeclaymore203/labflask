@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    body {
+        font-family: Arial;
+        text-align: center;
+        align-items: center;
+    }
+    .content {
+        margin-top: 2%;
+        margin-bottom: 2%;
+    }
+    button {
+        color: #ffffff;
+        background-color: #4169E1;
+        width: 100px;
+        height: 35px;
+        margin-bottom: 1%;
+        margin-top: 1%;
+        border: none;
+    }
+    .delete-button {
+        color: #ffffff;
+        background-color: #DC143C;
+        width: 100px;
+        height: 35px;
+        margin-top: 1%;
+    }
+    .edit-button {
+        color: #ffffff;
+        background-color: #3CB371;
+        width: 100px;
+        height: 35px;
+        margin-bottom: 1%;
+        margin-top: 10px;
+    }
+    input {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border-style: solid;
+        border-color: #000000;
+        align-items: center;
+    }
+    textarea {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border-style: solid;
+        border-color: #000000;
+        align-items: center;
+    }
+    .note {
+    background-color: #FFFACD;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    }
+    label {
+        font-size: 20px;
+    }
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title>Notes App</title>
+</head>
+<body>
+        <h1>Notes App</h1>
+        <div class="content">
+            <!-- Додавання даних в flask з допомогою http методу post -->
+        <form action="/add" method="post">
+                    <label>Title</label>
+            <!-- Форма для додавання даних title до бази даних -->
+                    <input type="text" name="title" required>
+                    <label>Text</label>
+            <!-- Форма для додавання даних content до бази даних -->
+                    <textarea name="content" rows="5" required></textarea>
+                    <button type="submit">Add Note</button>
+        </form>
+        </div>
+        <!-- Html код для отримання списку всіх елементів в таблиці notes -->
+        {% for note in notes %}
+            <div class="note">
+                <!-- Форма для отримання даних title з бази даних ( 1 - число отриманого з post  -->
+                <h2 style="margin-top: 20px;">{{ note[1] }}</h2>
+                <!-- Форма для отримання даних notes з бази даних-->
+                <p>{{ note[2] }}</p>
+                <!-- Кнопка Delete, посилає запит http методу post до flask, по id з бази даних ( 0 - id ) -->
+                <form action="/delete/{{ note[0] }}" method="post">
+                    <button type="submit" class="delete-button">Delete</button>
+                </form>
+                <form action="/edit/{{ note[0] }}" method="get">
+                    <button type="submit" class="edit-button">Edit</button>
+                </form>
+            </div>
+        {% endfor %}
+</body>
+</html>
